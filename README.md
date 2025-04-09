@@ -1,21 +1,24 @@
 # qrcode-generator-GUI
-Lightweight application with a user friendly GUI to quickly export QR-Codes as png, jpg, webp or svg files. 
+Lightweight application with a user friendly GUI to quickly export QR-Codes as png, jpg, webp or svg files.
 
 ![Screenshot](https://github.com/AdrianCeku/qrcode-generator-GUI/assets/95617181/87bb06c6-ebc9-4baf-867c-8b98c2e1a28d)
 
-## How to use:
+## Changes from the original repository 
+0. Slightly improved code organization for better readability and extendibility.
+1. Autocreation of "temp" and "QR-Codes" directories if those don't exist already.
+2. Prebuilt Windows 64-bit binaries
 
 
+## How to use
 0. Install Python.
 1. Clone or download the repository.
 2. Open the repository folder, click inside of the "path bar" right next to the search bar, type "cmd" and press enter to open the terminal in your current directory.
 3. Enter "pip install -r requirements.txt" to install the needed libraries (qrcode, customtkinter and pillow) or install them manually. 
-4. Enter "python main.py" for the GUI or "python terminal_version.py" for the terminal version.
+4. Enter "python main.py" for the GUI or "python main.py --no-gui" for the terminal version.
 5. Enter Filename, Content and choose your settings. Then click on "Save".
 6. The file should be saved to ".../qrcode-generator/QR-Codes/name.extension".
 
 ## Advanced Options
-
 **File Extension**: Choose between .png, .jpg, .svg and .webp file extensions for your QR-Code.
 
 **Error Correction**: Changes Error Correction Level. M allows up to 15% of the QR-Code to be unreadable but still work. Q allows for 25% and so on. If you enable the logo, you will be locked to using Q (25%) or H (30%). 
@@ -43,6 +46,6 @@ Lightweight application with a user friendly GUI to quickly export QR-Codes as p
 **Open folder**: Opens the file explorer in the folder where the QR-Codes are saved.
 
 ## Terminal Version
-The Terminal version doesnt offer any advanced options and saves files as png. Default settings in the terminal version are the same as the default settings in the GUI Version. 
+The Terminal version doesn't offer any advanced options and saves files as png. Default settings in the terminal version are the same as the default settings in the GUI Version. 
 
 When asked to generate another one, enter "n" to quit or anything else to keep going.

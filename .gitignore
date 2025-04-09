@@ -1,5 +1,17 @@
-
+# Images
 *.png
 *.jpg
 *.webp
 *.svg
+
+# Python directories
+.venv
+__pycache__
+
+# Pyinstaller directories
+dist
+build
+
+# Application directories
+QR-Codes
+temp
