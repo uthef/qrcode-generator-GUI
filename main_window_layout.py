@@ -8,8 +8,8 @@ class MainWindowLayout:
         self.__root = window.app.root
 
 
-    def __update_ui_action(self, _ = ""):
-        self.__window.update_ui()
+    def __update_ui_action(self, e = ""):
+        self.__window.update_ui(e)
 
 
     def __select_logo_action(self):
@@ -61,7 +61,7 @@ class MainWindowLayout:
                                             corner_radius=10)
         self.content_box.place(relx=0.5, rely=0.335, anchor=tkinter.CENTER)
 
-        self.content_box.bind("<Key>", self.__update_ui_action)
+        self.content_box.bind("<KeyRelease>", self.__update_ui_action)
 
         self.content_box_label = CTkLabel(master=self.settings_frame,
                                             text="Content",

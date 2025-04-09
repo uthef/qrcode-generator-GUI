@@ -28,6 +28,7 @@ class MainWindow:
                 border=round(self.layout.border_slider.get()),
                 error_correction=self.get_error_correction()
         )
+
         qr.add_data(self.layout.content_box.get("1.0","end-1c")) # Gets content from row 1 idex 0 up to the end but deletes the last character (-1c) because using "end" always adds a linebreak at the end
 
         if mode == "temp": # If mode == "temp", save image to temp folder for use in the preview window
@@ -43,7 +44,7 @@ class MainWindow:
                     logo = logo.resize((x:=20 * round(self.layout.logosize_slider.get()),y:= 20 * round(self.layout.logosize_slider.get())))
                     img.paste(logo, (200 - int(x/2),200 - int(y/2)),logo)
                 except:
-                    print("Error: invalid logo file")
+                    MainWindow.__print_invalid_logo_error()
 
                 img.save(self.img_buffer, format="PNG")
             else: # just generates qr code without adding the logo if disabled
@@ -61,7 +62,7 @@ class MainWindow:
                 logo = logo.resize((x:=100 * round(self.layout.logosize_slider.get()),y:= 100 * round(self.layout.logosize_slider.get())))
                 img.paste(logo, (1000 - int(x/2),1000 - int(y/2)),logo)
             except:
-                print("Error: invalid logo file")
+                MainWindow.__print_invalid_logo_error()
 
             return img
 
@@ -75,6 +76,11 @@ class MainWindow:
         make_sure_directory_exists(QR_CODES_DIR)
         img = self.create_qr()
         img.save(f"{QR_CODES_DIR}/{self.layout.filename_box.get()}{self.layout.filetype_box.get()}") # Saves with chosen name and file extension
+
+
+    @staticmethod
+    def __print_invalid_logo_error():
+        print("Error: invalid logo file")
 
 
     def get_boxsize(self):
