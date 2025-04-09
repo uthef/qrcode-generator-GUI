@@ -29,7 +29,13 @@ class MainWindow:
                 error_correction=self.get_error_correction()
         )
 
-        qr.add_data(self.layout.content_box.get("1.0","end-1c")) # Gets content from row 1 idex 0 up to the end but deletes the last character (-1c) because using "end" always adds a linebreak at the end
+        data = self.layout.content_box.get("1.0","end-1c")
+
+        if len(data.strip()) == 0:
+            data = "temp"
+        
+        # Gets content from row 1 idex 0 up to the end but deletes the last character (-1c) because using "end" always adds a linebreak at the end
+        qr.add_data(data) 
 
         if mode == "temp": # If mode == "temp", save image to temp folder for use in the preview window
             self.img_buffer = io.BytesIO()
