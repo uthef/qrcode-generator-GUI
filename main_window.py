@@ -1,4 +1,3 @@
-import qrcode.image.pil
 from main_window_layout import MainWindowLayout
 import os
 import tkinter
@@ -8,19 +7,24 @@ import qrcode.image.svg
 from PIL import Image
 from fsutils import QR_CODES_DIR, make_sure_directory_exists
 
+
 class MainWindow:
     def __init__(self, app):
         self.logo_buffer: io.BytesIO = io.BytesIO()
         self.img_buffer: io.BytesIO = io.BytesIO()
 
+        self.preview: bool = False
+
         self.app = app
+
         self.layout = MainWindowLayout(self)
         self.layout.build()
         self.layout.content_box.insert("end-1c", "temp")
+
         self.update_ui()
 
 
-    # Generates the QR Code and saves it. Gets called when you press on "Generate" 
+    # Generates the QR Code and saves it.
     def create_qr(self, mode=""):
         qr = qrcode.QRCode(
                 version=round(self.layout.version_slider.get()),    # Gets values of sliders and error correction
@@ -37,7 +41,7 @@ class MainWindow:
         # Gets content from row 1 idex 0 up to the end but deletes the last character (-1c) because using "end" always adds a linebreak at the end
         qr.add_data(data) 
 
-        if mode == "temp": # If mode == "temp", save image to temp folder for use in the preview window
+        if mode == "temp": # If mode == "temp", save image to buffer for use in the preview frame
             self.img_buffer = io.BytesIO()
 
             if self.layout.logo_checkbox.get() == 1: # generates qr code and adds logo if enabled
@@ -50,7 +54,7 @@ class MainWindow:
                     logo = logo.resize((x:=20 * round(self.layout.logosize_slider.get()),y:= 20 * round(self.layout.logosize_slider.get())))
                     img.paste(logo, (200 - int(x/2),200 - int(y/2)),logo)
                 except:
-                    MainWindow.__print_invalid_logo_error()
+                    MainWindow.__print_invalid_logo_warning()
 
                 img.save(self.img_buffer, format="PNG")
             else: # just generates qr code without adding the logo if disabled
@@ -68,7 +72,7 @@ class MainWindow:
                 logo = logo.resize((x:=100 * round(self.layout.logosize_slider.get()),y:= 100 * round(self.layout.logosize_slider.get())))
                 img.paste(logo, (1000 - int(x/2),1000 - int(y/2)),logo)
             except:
-                MainWindow.__print_invalid_logo_error()
+                MainWindow.__print_invalid_logo_warning()
 
             return img
 
@@ -85,8 +89,8 @@ class MainWindow:
 
 
     @staticmethod
-    def __print_invalid_logo_error():
-        print("Error: invalid logo file")
+    def __print_invalid_logo_warning():
+        print("Warning: invalid logo file")
 
 
     def get_boxsize(self):
@@ -131,28 +135,21 @@ class MainWindow:
         os.startfile(QR_CODES_DIR)
 
 
-    # Updates ui to represent current values. Gets called whenever a slider or combobox is changed
+    # Updates ui to represent current values. Gets called whenever a slider, combobox or checkbox is changed
     def update_ui(self, _ = ""):
-        if self.layout.logo_checkbox.get() == 1:
-            self.layout.logo_select_button.place(relx=0.225, rely=0.965, anchor=tkinter.CENTER)
-            self.layout.logosize_slider.place(relx=0.23, rely=0.92, anchor=tkinter.CENTER)
-            self.layout.logosize_slider_label.place(relx=0.065, rely=0.92, anchor=tkinter.CENTER)
-        else:
-            self.layout.logo_select_button.place(relx=2, rely=0.965, anchor=tkinter.CENTER)
-            self.layout.logosize_slider.place(relx=2, rely=0.92, anchor=tkinter.CENTER)
-            self.layout.logosize_slider_label.place(relx=2, rely=0.92, anchor=tkinter.CENTER)       
+        self.layout.set_logo_settings_visibility(self.layout.logo_checkbox.get() == 1)  
 
-        if self.layout.preview_checkbox.get() == 1:
+        preview_check = self.layout.preview_checkbox.get() == 1
+        update_layout = self.preview != preview_check
 
-            self.app.root.geometry("1200x600")
-            self.layout.settings_frame.place(relx=0.25, rely=0.5, anchor=tkinter.CENTER)
-            self.layout.preview_frame.place(relx=0.75, rely=0.5, anchor=tkinter.CENTER)
+        self.preview = preview_check
+
+        if update_layout:
+            self.layout.repack_main_frames(preview_check)
+
+        if preview_check:
             self.create_qr("temp")
             self.layout.preview_image.configure(image= tkinter.PhotoImage(data=self.img_buffer.getvalue()))
-        elif self.app.root.geometry != "600x600":
-            self.app.root.geometry("600x600")
-            self.layout.settings_frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
-            self.layout.preview_frame.place(relx=2, anchor=tkinter.CENTER)
 
         if self.layout.logo_checkbox.get() == 1:
             self.layout.border_slider.configure(state="disabled",button_color="grey")

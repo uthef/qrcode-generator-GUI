@@ -11,7 +11,7 @@ class Application:
         customtkinter.set_default_color_theme("dark-blue")
 
         self.root = customtkinter.CTk()
-        self.root.geometry("600x600")
+        self.root.geometry("960x600")
         self.root.title(f"QR Code Generator v{self.version}")
         self.root.resizable(False,False)
 
