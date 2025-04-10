@@ -5,8 +5,8 @@ Lightweight application with a user friendly GUI to quickly export QR-Codes as p
 
 ## Changes from the original repository 
 0. Slightly improved code organization for better readability and extendibility.
-1. Autocreation of "temp" and "QR-Codes" directories if those don't exist already.
-2. Prebuilt Windows 64-bit binaries
+1. Autocreation of "QR-Codes" directory if it doesn't exist already.
+2. Prebuilt Windows 64-bit binaries.
 
 
 ## How to use
