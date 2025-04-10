@@ -3,7 +3,7 @@ from customtkinter import CTkFrame, CTkLabel, CTkTextbox, CTkComboBox, CTkEntry,
 
 
 GAP_Y = [16, 4]
-
+ 
 class MainWindowLayout:
     def __init__(self, window):
         self.__window = window
@@ -251,7 +251,6 @@ class MainWindowLayout:
         self.filename_box.pack(side=TOP, anchor="w", fill=X)
         self.filename_box.insert(0, "qr-code")
 
-
         # Content Textbox + Label
         self.content_box_label = CTkLabel(master=self.settings_frame,
                                             text="Content",
@@ -331,8 +330,8 @@ class MainWindowLayout:
         # Open Folder Button
         self.open_folder_button = CTkButton(master=self.bottom_frame,
                                             width=110,
-                                            fg_color="#888888",
-                                            hover_color="#666666",
+                                            fg_color="#666666",
+                                            hover_color="#444444",
                                             text="Open Folder",
                                             command=self.__open_folder_action)
         self.open_folder_button.pack(side=RIGHT, anchor="n", pady=[GAP_Y[0] - 3, 0])
