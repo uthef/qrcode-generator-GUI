@@ -4,7 +4,7 @@ from main_window import MainWindow
 
 class Application:
     def __init__(self):
-        self.version = "0.0.1"
+        self.version = "0.0.2"
 
         # customtkinter setup
         customtkinter.set_appearance_mode("Dark")
