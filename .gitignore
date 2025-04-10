@@ -6,6 +6,8 @@
 *.webp
 *.svg
 
+!icon.png
+
 # Python directories
 .venv
 __pycache__
